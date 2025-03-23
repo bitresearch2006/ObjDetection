@@ -8,7 +8,7 @@ import os
 
 # Add the path of folder1 to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../main')))
-from ObjectDetection import ObjectDetection
+from ObjDetection import ObjDetection
 
 def image_to_json(image_path):
     """
@@ -89,6 +89,6 @@ def TestApp(image_path, output_json):
 
 # Example usage:
 image_json = image_to_json('test4.jpg')
-output_json = ObjectDetection(image_json)
+output_json = ObjDetection(image_json)
 print(output_json)
 TestApp('test4.jpg', output_json)

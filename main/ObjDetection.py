@@ -6,7 +6,7 @@ import numpy as np
 from ultralytics import YOLO
 import json
 
-def ObjectDetection(sub_json):
+def ObjDetection(sub_json):
     """
     Detect objects in an image using YOLOv8.
     
