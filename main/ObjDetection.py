@@ -1,12 +1,11 @@
 # Requirement
 # pip install opencv-python
-# pip install ultralytics
-import cv2
+# pip install ultralytics /  for low memmory pip install --no-cache-dir ultralytics
 import numpy as np
 from ultralytics import YOLO
 import json
 
-def ObjDetection(sub_json):
+def ObjDetection(width, height, pixels):
     """
     Detect objects in an image using YOLOv8.
     
@@ -24,9 +23,9 @@ def ObjDetection(sub_json):
     
     try:
         # Extract image data from JSON
-        width = sub_json['image']['width']
-        height = sub_json['image']['height']
-        pixels = sub_json['image']['pixels']
+        # width = sub_json['image']['width']
+        # height = sub_json['image']['height']
+        # pixels = sub_json['image']['pixels']
         
         # Create an image array using NumPy
         image_rgb = np.zeros((height, width, 3), dtype=np.uint8)
