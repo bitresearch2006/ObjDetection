@@ -3,14 +3,16 @@
 # pip install ultralytics /  for low memmory pip install --no-cache-dir ultralytics
 import numpy as np
 from ultralytics import YOLO
+import cv2
+import base64
 import json
 
-def ObjDetection(width, height, pixels):
+def ObjDetection(image_b64):
     """
     Detect objects in an image using YOLOv8.
     
     Args:
-        sub_json: JSON object containing image data in RGB format
+        image_b64: Base64 encoded image data
     
     Returns:
         JSON object containing detected objects and class labels.
@@ -22,21 +24,19 @@ def ObjDetection(width, height, pixels):
         return json.dumps({"error": f"Failed to load YOLO model: {str(e)}", "status": "ERROR"}, indent=4)
     
     try:
-        # Extract image data from JSON
-        # width = sub_json['image']['width']
-        # height = sub_json['image']['height']
-        # pixels = sub_json['image']['pixels']
+        # Decode the base64 string
+        image_data = base64.b64decode(image_b64)
         
-        # Create an image array using NumPy
-        image_rgb = np.zeros((height, width, 3), dtype=np.uint8)
-        for i in range(height):
-            for j in range(width):
-                pixel = pixels[i * width + j]
-                image_rgb[i, j] = [pixel['r'], pixel['g'], pixel['b']]
-    except KeyError as e:
-        return json.dumps({"error": f"Missing key in JSON input: {str(e)}", "status": "ERROR"}, indent=4)
+        # Convert the decoded data to a NumPy array
+        nparr = np.frombuffer(image_data, np.uint8)
+        
+        # Decode the NumPy array to an image
+        image_rgb = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        
+        # Convert BGR to RGB
+        image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
     except Exception as e:
-        return json.dumps({"error": f"Failed to process image data: {str(e)}", "status": "ERROR"}, indent=4)
+        return json.dumps({"error": f"Failed to decode image data: {str(e)}", "status": "ERROR"}, indent=4)
     
     try:
         # Perform detection
@@ -70,3 +70,10 @@ def ObjDetection(width, height, pixels):
         return json.dumps(output_json, indent=4)
     except Exception as e:
         return json.dumps({"error": f"Failed to perform object detection: {str(e)}", "status": "ERROR"}, indent=4)
+
+# Example usage
+# image_path = 'test4.jpg'
+# with open(image_path, "rb") as image_file:
+    # image_b64 = base64.b64encode(image_file.read()).decode('utf-8')
+
+# print(ObjDetection(image_b64))
