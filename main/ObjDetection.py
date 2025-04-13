@@ -12,7 +12,7 @@ def ObjDetection(image_b64):
     Detect objects in an image using YOLOv8.
     
     Args:
-        image_b64: Base64 encoded image data
+        image_b64: Base64 encoded image data (JPG RGB)
     
     Returns:
         JSON object containing detected objects and class labels.
@@ -33,8 +33,6 @@ def ObjDetection(image_b64):
         # Decode the NumPy array to an image
         image_rgb = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
         
-        # Convert BGR to RGB
-        image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
     except Exception as e:
         return json.dumps({"error": f"Failed to decode image data: {str(e)}", "status": "ERROR"}, indent=4)
     

@@ -5,53 +5,34 @@ import matplotlib.pyplot as plt
 import json
 import sys
 import os
+import base64
 
 # Add the path of folder1 to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../main')))
 from ObjDetection import ObjDetection
 
-def image_to_json(image_path):
-    """
-    Convert an image to a JSON object with RGB pixel data.
-    
-    Args:
-        image_path: Path to the input image
-    
-    Returns:
-        JSON object containing image data in RGB format
-    """
-    try:
-        # Read the image
-        image = cv2.imread(image_path)
-        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        
-        # Get image dimensions
-        height, width, _ = image_rgb.shape
-        
-        # Create a list to hold pixel data
-        pixels = [{"r": int(r), "g": int(g), "b": int(b)} for row in image_rgb for r, g, b in row]
-        
-        # Create the JSON object
-        image_json = {
-            "image": {
-                "width": width,
-                "height": height,
-                "pixels": pixels
-            }
-        }
-        
-        return image_json
-    except Exception as e:
-        print(f"Failed to convert image to JSON: {str(e)}")
-
-def TestApp(image_path, output_json):
+def TestApp(image_path):
     """
     Display the results of object detection.
     
     Args:
-        output_json: JSON object containing detected objects and class labels.
+        image_path: Image path.
     """
     try:
+       
+        # Read original image
+        original_image = cv2.imread(image_path)
+        
+        # Convert the image from BGR to RGB
+        rgb_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
+
+        # Encode the image to base64
+        _, buffer = cv2.imencode('.jpg', rgb_image)
+        image_b64 = base64.b64encode(buffer).decode('utf-8')
+        # Create the sub_json object with image data
+        image_json = {"image_b64": image_b64}
+        output_json = ObjDetection(image_b64)
+
         # Parse the JSON object
         results = json.loads(output_json)
         
@@ -62,10 +43,6 @@ def TestApp(image_path, output_json):
         
         detected_objects = results['detected_objects']
         
-        # Read original image
-        original_image = cv2.imread(image_path)
-        annotated_image = original_image
-        
         # Draw bounding boxes and labels
         for obj in detected_objects:
             x, y, w, h = obj['bbox']['x'], obj['bbox']['y'], obj['bbox']['width'], obj['bbox']['height']
@@ -74,21 +51,18 @@ def TestApp(image_path, output_json):
             color = obj['color']
             
             # Draw rectangle
-            cv2.rectangle(annotated_image, (x, y), (x + w, y + h), color, 2)
+            cv2.rectangle(original_image, (x, y), (x + w, y + h), color, 2)
             
             # Draw label
             label = f"{class_name}: {confidence:.2f}"
-            cv2.putText(annotated_image, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            cv2.putText(original_image, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
         
         # Display the image
-        plt.imshow(cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB))
+        plt.imshow(cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB))
         plt.axis('off')
         plt.show()
     except Exception as e:
         print(f"Failed to display results: {str(e)}")
 
 # Example usage:
-image_json = image_to_json('test4.jpg')
-output_json = ObjDetection(image_json)
-print(output_json)
-TestApp('test4.jpg', output_json)
+TestApp('test4.jpg')
