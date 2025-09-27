@@ -48,7 +48,7 @@ tasks.create("downloadTemplate") {
 tasks.create("copySources") {
     group = "faas"
     description = "Copy main folder and ${functionName} into build directory"
-
+    dependsOn("downloadTemplate")
     doLast {
         // Copy handler folder
         copy {
@@ -69,9 +69,10 @@ tasks.create("copySources") {
 tasks.create("faasBuild") {
     group = "faas"
     description = "Build the faas function image"
-    dependsOn("downloadTemplate", "copySources")
+    dependsOn("copySources")
     doLast {
         exec {
+            workingDir "build"                  // run inside build/
             commandLine "faas-cli", "build", "-f", "${functionName}.yml"
         }
     }
@@ -83,6 +84,7 @@ tasks.create("faasPush") {
     dependsOn("faasBuild")
     doLast {
         exec {
+            workingDir "build"                  // run inside build/
             commandLine "faas-cli", "push", "-f", "${functionName}.yml"
         }
     }
@@ -94,6 +96,7 @@ tasks.create("faasDeploy") {
     dependsOn("faasPush")
     doLast {
         exec {
+            workingDir "build"                  // run inside build/
             commandLine "faas-cli", "deploy", "-f", "${functionName}.yml"
         }
     }
