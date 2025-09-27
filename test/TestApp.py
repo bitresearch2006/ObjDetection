@@ -9,7 +9,7 @@ import base64
 
 # Add the path of folder1 to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../main')))
-from ObjDetection import ObjDetection
+from handler import handle
 
 def TestApp(image_path):
     """
