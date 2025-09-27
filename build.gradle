@@ -37,7 +37,7 @@ tasks.create("downloadTemplate") {
         // Copy to build/template/
         copy {
             from new File(tempDir, "template/${templateName}")
-            into buildTemplateDir.parentFile
+            into file(buildTemplateDir)
         }
 
         println "Template '${templateName}' downloaded to ${buildTemplateDir.absolutePath}"
