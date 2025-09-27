@@ -7,6 +7,7 @@ functions:
     lang: python3-http-debian
     handler: ./main
     image: localhost:5000/obj-dection:latest
+    min_replicas: 1    
     environment:
       DIAGNOSTICS: "true"
       LOG_DIR: "/tmp/obj-detection_logs"
