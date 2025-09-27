@@ -10,3 +10,5 @@ functions:
     environment:
       DIAGNOSTICS: "true"
       LOG_DIR: "/tmp/obj-detection_logs"
+    build_args:
+      ADDITIONAL_PACKAGE: "libgl1 libglib2.0-0"      

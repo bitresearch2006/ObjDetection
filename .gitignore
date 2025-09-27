@@ -1,2 +1,7 @@
 # Ignore Gradle build outputs
 build/
+# Ignore Python cache
+main/__pycache__/
+
+# Ignore model file
+test/yolov8n.pt

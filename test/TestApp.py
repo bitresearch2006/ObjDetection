@@ -31,6 +31,12 @@ def TestApp(image_path):
         image_b64 = base64.b64encode(buffer).decode('utf-8')
         # Create the sub_json object with image data
         image_json = {"image_b64": image_b64}
+        # Convert to JSON string
+        json_text = json.dumps(image_json)              
+        # Write JSON text to a file
+        with open("image.json.txt", "w") as f:
+            f.write(json_text)
+        print("JSON written to image.json")
         output_json = handle(image_b64)
 
         # Parse the JSON object
