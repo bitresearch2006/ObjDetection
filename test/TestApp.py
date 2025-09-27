@@ -31,7 +31,7 @@ def TestApp(image_path):
         image_b64 = base64.b64encode(buffer).decode('utf-8')
         # Create the sub_json object with image data
         image_json = {"image_b64": image_b64}
-        output_json = ObjDetection(image_b64)
+        output_json = handle(image_b64)
 
         # Parse the JSON object
         results = json.loads(output_json)

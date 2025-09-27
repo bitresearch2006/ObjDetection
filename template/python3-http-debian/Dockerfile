@@ -14,13 +14,7 @@ ARG UPGRADE_PACKAGES=false
 
 RUN apt-get update -qy \
     && if [ "${UPGRADE_PACKAGES}" = "true" ] || [ "${UPGRADE_PACKAGES}" = "1" ]; then apt-get upgrade -qy; fi \
-    && apt-get install -qy --no-install-recommends \
-        gcc make \
-        libglib2.0-0 \
-        libsm6 \
-        libxext6 \
-        libxrender-dev \
-        ${ADDITIONAL_PACKAGE} \
+    && apt-get install -qy --no-install-recommends gcc make ${ADDITIONAL_PACKAGE} \
     && rm -rf /var/lib/apt/lists/*
 
 # Add non root user

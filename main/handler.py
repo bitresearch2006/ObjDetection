@@ -7,7 +7,7 @@ import cv2
 import base64
 import json
 
-def ObjDetection(image_b64):
+def handle(image_b64):
     """
     Detect objects in an image using YOLOv8.
     
