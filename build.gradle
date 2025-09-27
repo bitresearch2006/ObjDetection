@@ -47,7 +47,7 @@ tasks.create("downloadTemplate") {
 
 tasks.create("copySources") {
     group = "faas"
-    description = "Copy main folder and stack.yml into build directory"
+    description = "Copy main folder and ${functionName} into build directory"
 
     doLast {
         // Copy handler folder
@@ -56,14 +56,13 @@ tasks.create("copySources") {
             into "build/main"
         }
 
-        // Copy function yml as stack.yml
+        // Copy function yml
         copy {
-            from "stack.yml"
+            from "${functionName}.yml"
             into "build"
-            rename { "stack.yml" }
         }
 
-        println "Copied main/ and stack.yml into build/"
+        println "Copied main/ and ${functionName} into build/"
     }
 }
 
