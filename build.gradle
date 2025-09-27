@@ -70,7 +70,7 @@ tasks.create("copySources") {
 tasks.create("faasBuild") {
     group = "faas"
     description = "Build the faas function image"
-    dependsOn("downloadTemplate", "copyMain")
+    dependsOn("downloadTemplate", "copySources")
     doLast {
         exec {
             commandLine "faas-cli", "build", "-f", "${functionName}.yml"
