@@ -11,7 +11,7 @@ ext {
     templateBranch = "main"                // optional, default branch
 }
 
-tasks.register("downloadTemplate") {
+tasks.create("downloadTemplate") {
     group = "faas"
     description = "Download template folder from Git repository"
 
@@ -45,7 +45,7 @@ tasks.register("downloadTemplate") {
     }
 }
 
-tasks.register("copySources") {
+tasks.create("copySources") {
     group = "faas"
     description = "Copy main folder and stack.yml into build directory"
 
@@ -67,7 +67,7 @@ tasks.register("copySources") {
     }
 }
 
-tasks.register("faasBuild") {
+tasks.create("faasBuild") {
     group = "faas"
     description = "Build the faas function image"
     dependsOn("downloadTemplate", "copyMain")
@@ -78,7 +78,7 @@ tasks.register("faasBuild") {
     }
 }
 
-tasks.register("faasPush") {
+tasks.create("faasPush") {
     group = "faas"
     description = "Push the faas function image"
     dependsOn("faasBuild")
@@ -89,7 +89,7 @@ tasks.register("faasPush") {
     }
 }
 
-tasks.register("faasDeploy") {
+tasks.create("faasDeploy") {
     group = "faas"
     description = "Deploy the faas function"
     dependsOn("faasPush")
@@ -100,7 +100,7 @@ tasks.register("faasDeploy") {
     }
 }
 
-tasks.register("faasAll") {
+tasks.create("faasAll") {
     group = "faas"
     description = "Build, push and deploy in one go"
     dependsOn("faasDeploy")
