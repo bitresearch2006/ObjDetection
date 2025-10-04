@@ -3,10 +3,10 @@ provider:
   gateway: http://127.0.0.1:8080
 
 functions:
-  ObjDetection:
+  objdetection:
     lang: python3-http-debian
     handler: ./main
-    image: localhost:5000/ObjDetection:latest
+    image: localhost:5000/objdetection:latest
     min_replicas: 1
     build_args:
       ADDITIONAL_PACKAGE: ""           
