@@ -9,7 +9,7 @@ functions:
     image: localhost:5000/objdetection:latest
     min_replicas: 1
     build_args:
-      ADDITIONAL_PACKAGE: ""           
+      ADDITIONAL_PACKAGE: "libgl1"
     environment:
       DIAGNOSTICS: "true"
       LOG_DIR: "/tmp/obj_detection_logs"  
