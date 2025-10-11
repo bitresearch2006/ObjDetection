@@ -9,7 +9,7 @@ functions:
     image: localhost:5000/objdetection:latest
     min_replicas: 1
     build_args:
-      ADDITIONAL_PACKAGE: "libgl1"
+      ADDITIONAL_PACKAGE: "libglib2.0-0 libsm6 libxext6 libxrender-dev libgl1"
     environment:
       DIAGNOSTICS: "true"
       LOG_DIR: "/tmp/obj_detection_logs"  
